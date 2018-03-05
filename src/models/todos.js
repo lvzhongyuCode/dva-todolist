@@ -40,6 +40,15 @@ export default {
       obj.finished = !obj.finished;
       yield put({type: 'save', payload: {todoList}})
     },
+    * modifyTodo({payload: {index, todo}}, {call, put, select}) {
+      const data = yield call(todoService.query, {index, todo});
+      let tempList = yield select(state => state.todos.todoList);
+      let todoList = [];
+      todoList = todoList.concat(tempList);
+      let obj = todoList[index];
+      obj.value = todo;
+      yield put({type: 'save', payload: {todoList}})
+    },
   },
   subscriptions: {
     setup({dispatch, history}) {

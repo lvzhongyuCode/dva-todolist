@@ -33,18 +33,30 @@ class TodoList extends React.Component {
     })
   }
 
+  modifyTodo(e, index) {
+    this.props.dispatch({
+      type: 'todos/modifyTodo',
+      payload: {index, todo: e.target.value}
+    })
+  }
+
   render() {
     const todoList = this.props.todoList.map((val, index) => {
 
       return <div key={index}>
-        <input type="checkbox" checked={val.finished} onChange={() => this.toggleItem(index)}/>
-        < input value={val.value}/>
+        <input type="checkbox"
+               checked={val.finished}
+               onChange={() => this.toggleItem(index)}/>
+        < input value={val.value}
+                onChange={(e) => this.modifyTodo(e, index)}
+                autoFocus={false}
+        />
         <button onClick={() => this.deleteTodo(index)}>X</button>
       </div>
     });
 
     let count = 0;
-    
+
     this.props.todoList.map(item => count = !item.finished ? count + 1 : count);
 
     return (
