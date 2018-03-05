@@ -30,7 +30,16 @@ export default {
       todoList = todoList.concat(tempList);
       todoList.splice(index, 1);
       yield put({type: 'save', payload: {todoList}})
-    }
+    },
+    * toggle({payload: index}, {call, put, select}) {
+      const data = yield call(todoService.query, index);
+      let tempList = yield select(state => state.todos.todoList);
+      let todoList = [];
+      todoList = todoList.concat(tempList);
+      let obj = todoList[index];
+      obj.finished = !obj.finished;
+      yield put({type: 'save', payload: {todoList}})
+    },
   },
   subscriptions: {
     setup({dispatch, history}) {
