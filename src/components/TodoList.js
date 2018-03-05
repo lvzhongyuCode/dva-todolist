@@ -18,11 +18,19 @@ class TodoList extends React.Component {
     }
   }
 
+  deleteTodo(index) {
+    this.props.dispatch({
+      type: 'todos/deleteTodo',
+      payload: index
+    })
+  }
+
   render() {
     const todoList = this.props.todoList.map((val, index) => {
 
       return <div key={index}>
-        {val.value}
+        <input value={val.value}/>
+        <button onClick={() => this.deleteTodo(index)}>X</button>
       </div>
     });
     return (

@@ -13,7 +13,6 @@ export default {
     * addTodo({payload: value}, {call, put, select}) {
       // 模拟网络请求
       const data = yield call(todoService.query, value);
-      console.log(data);
       let tempList = yield select(state => state.todos.todoList);
       let todoList = [];
       todoList = todoList.concat(tempList);
@@ -24,6 +23,14 @@ export default {
       todoList.push(tempObj);
       yield put({type: 'save', payload: {todoList}})
     },
+    * deleteTodo({payload: index}, {call, put, select}) {
+      const data = yield call(todoService.query, index);
+      let tempList = yield select(state => state.todos.todoList);
+      let todoList = [];
+      todoList = todoList.concat(tempList);
+      todoList.splice(index, 1);
+      yield put({type: 'save', payload: {todoList}})
+    }
   },
   subscriptions: {
     setup({dispatch, history}) {
